@@ -4,7 +4,6 @@
 
 bool AP2_LED_ENABLED = false;
 bool AP2_LED_DYNAMIC_PROFILE = false;
-bool AP2_FOREGROUND_COLOR_SET = false;
 
 void annepro2LedDisable(void)
 {
@@ -77,8 +76,6 @@ void annepro2LedNextAnimationSpeed()
 void annepro2LedPrevProfile()
 {
   sdPut(&SD0, CMD_LED_PREV_PROFILE);
-  uint8_t buf = sdGet(&SD0);
-  AP2_LED_DYNAMIC_PROFILE = buf;
 }
 
 void annepro2LedSetMask(uint8_t key)
@@ -97,16 +94,13 @@ void annepro2LedSetForegroundColor(uint8_t red, uint8_t green, uint8_t blue)
 {
   sdPut(&SD0, CMD_LED_SET_FOREGROUND_COLOR);
   uint8_t colors[3]={red,green,blue};
-  sdWrite(&SD0, (uint8_t *)&colors, sizeof(colors));
-  AP2_FOREGROUND_COLOR_SET = true;
+  sdWrite(&SD0, (uint8_t *)&colors, sizeof(uint8_t)*3);
 }
 
 void annepro2LedResetForegroundColor()
 {
-  sdPut(&SD0, CMD_LED_CLEAR_FOREGROUND_COLOR);
-  uint8_t buf = sdGet(&SD0);
-  AP2_LED_DYNAMIC_PROFILE = buf;
-  AP2_FOREGROUND_COLOR_SET = false;
+  uint8_t currentProfile = annepro2LedGetProfile();
+  annepro2LedSetProfile(currentProfile);
 }
 
 /*

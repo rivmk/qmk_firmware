@@ -61,6 +61,14 @@
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
 
+// Tapping Term
+// #define TAPPING_TERM 150
+
+// // Auto-shift stuff
+// #define NO_AUTO_SHIFT_ALPHA
+// #define NO_AUTO_SHIFT_NUMERIC
+// #define NO_AUTO_SHIFT_SPECIAL_QUOTE
+
 #if defined(ANNEPRO2_EEPROM)
 // SPI Config
 #define SPI_DRIVER SPID1
@@ -184,12 +192,12 @@
 // #define NO_DEBUG
 
 /* disable print */
-// #define NO_PRINTg
+// #define NO_PRINT
 
 /* disable action features */
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
-//#define NO_ACTION_MACRO
-//#define NO_ACTION_FUNCTION
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
 

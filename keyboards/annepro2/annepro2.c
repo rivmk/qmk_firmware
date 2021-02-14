@@ -109,7 +109,7 @@ void matrix_scan_kb() {
  */
 bool OVERRIDE process_record_kb(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-        if (AP2_LED_ENABLED && AP2_LED_DYNAMIC_PROFILE && !AP2_FOREGROUND_COLOR_SET) {
+        if (AP2_LED_ENABLED && AP2_LED_DYNAMIC_PROFILE) {
             annepro2LedForwardKeypress(record->event.key.row, record->event.key.col);
         }
 
@@ -163,6 +163,7 @@ bool OVERRIDE process_record_kb(uint16_t keycode, keyrecord_t *record) {
             case KC_AP_LED_NEXT_INTENSITY:
                 annepro2LedNextIntensity();
                 return false;
+            
             case KC_AP_LED_SPEED:
                 annepro2LedNextAnimationSpeed();
                 return false;

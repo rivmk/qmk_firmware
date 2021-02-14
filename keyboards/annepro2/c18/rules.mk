@@ -23,7 +23,8 @@ MCU_STARTUP = ht32f523x2
 
 BOARD = ANNEPRO2_C18
 
-OPT_DEFS = -Wno-unused-function -fdump-rtl-dfinish -fstack-usage
+OPT_DEFS = -fdump-rtl-dfinish -fstack-usage -Wno-unused-function
+EXTRAFLAGS += -flto  #This activates link-time optimization, I believe
 #EXTRALDFLAGS = -Wl,--print-memory-usage
 
 # Options
@@ -34,12 +35,15 @@ NKRO_ENABLE = no
 MOUSEKEY_ENABLE = no
 EXTRAKEY_ENABLE = yes
 KEY_LOCK_ENABLE = no
+UNICODEMAP_ENABLE = yes
 
 # Other featues
-BOOTMAGIC_ENABLE = yes
+BOOTMAGIC_ENABLE = no
 CONSOLE_ENABLE = no
 COMMAND_ENABLE = yes
 RAW_ENABLE = yes
 MIDI_ENABLE = no
 VIRTSER_ENABLE = no
 COMBO_ENABLE = no
+TAP_DANCE_ENABLE = no
+AUTO_SHIFT_ENABLE = no
