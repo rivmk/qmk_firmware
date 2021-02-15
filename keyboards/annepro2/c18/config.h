@@ -63,6 +63,7 @@
 
 // Tapping Term
 #define TAPPING_TERM 175
+#define TAPPING_FORCE_HOLD_PER_KEY
 
 // // Auto-shift stuff
 // #define NO_AUTO_SHIFT_ALPHA

@@ -168,6 +168,15 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT,KC_DQUO)
 };
 
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RSFT_T(KC_SPC):
+            return true;
+        default:
+            return false;
+    }
+}
+
 // void dance_quote_finished(qk_tap_dance_state_t *state, void *user_data) {
 //     if (state->count == 1) {
 //         register_code(KC_QUOT);
@@ -221,7 +230,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, KC_LBRC, KC_RBRC, KC_BSLS,
     KC_CAPS, KC_A, KC_R, KC_S, KC_T, KC_G, KC_M, KC_N, KC_E, KC_I, KC_O, TD(TD_QUOTE), KC_ENT,              // consider replacing KC_QUOT with TD(TD_QUOTE);
     KC_LSFT, KC_X, KC_C, KC_D, KC_V, KC_Z, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
+    KC_LCTL, KC_LGUI, KC_LALT, RSFT_T(KC_SPC), KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
  /*
 * Layer _QWERTY_LAYER
@@ -254,7 +263,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
     KC_CAPS, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, TD(TD_QUOTE), KC_ENT,         // consider replacing KC_QUOT with TD(TD_QUOTE);
     KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
+    KC_LCTL, KC_LGUI, KC_LALT, RSFT_T(KC_SPC), KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
   /*
   * Layer _FN1_LAYER
@@ -298,7 +307,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     _______, _______, KC_UP, _______, _______, _______, _______, _______, _______, _______, KC_PSCR, KC_HOME, KC_END, _______,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, KC_PGUP, KC_PGDN, _______,
     _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_MPLY, _______, _______, _______, KC_INS, KC_DEL, _______,
-    C(S(G(KC_DEL))), C(S(G(KC_PGDN))), C(S(G(KC_PGUP))), C(S(G(KC_PAUS))), _______, MO(_EMOJI_LAYER), _______, _______      // The weird keycodes are to trigger media controls through AHK until the bug gets fixed
+    C(S(G(KC_DEL))), C(S(G(KC_PGDN))), C(S(G(KC_PGUP))), KC_SPC, _______, MO(_EMOJI_LAYER), _______, _______      // The weird keycodes are to trigger media controls through AHK until the bug gets fixed
  ),
 /*
   * Layer _EMOJI_LAYER
