@@ -22,7 +22,7 @@ enum profile {
   GREEN,
   BLUE,
   RAINBOWHORIZONTAL,
-  RAINBOWVERTICAL, 
+  RAINBOWVERTICAL,
   ANIMATEDRAINBOWVERTICAL,
   ANIMATEDRAINBOWFLOW,
   ANIMATEDRAINBOWWATERFALL,
@@ -67,7 +67,7 @@ enum unicode_names {
 };
 
 enum custom_keycodes {
-  USA = SAFE_RANGE,     // 🇺🇸
+  USA = AP2_SAFE_RANGE, // 🇺🇸
   FACEPALM,             // 🤦‍♂️
   HEART,                // ❤️
   CROSSBONES,           // ☠️
@@ -126,47 +126,54 @@ bool led_update_user(led_t leds) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // LED Timeout Code
     if (record->event.pressed) {
+        // LED Timeout Code
         if (caps) {
-          annepro2LedEnable();
-          annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
+            annepro2LedEnable();
+            annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
         } else if (qwerty) {
-          annepro2LedEnable();
-          annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);  
-        } else {  
-          annepro2LedEnable();
+            annepro2LedEnable();
+            annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);
+        } else {
+            annepro2LedEnable();
         }
         idle_timer = timer_read();
         second_counter = 0;
-    }
-    // return true;     // don't know if I need this
-    
-    // Multi-character emoji macros
-    switch (keycode) {
-      case USA:
-          if (record->event.pressed) {
-              send_unicode_string("🇺🇸");
-          };
-          break;
-      case FACEPALM:
-          if (record->event.pressed) {
-              send_unicode_string("🤦‍♂️");
-          };
-          break;
-      case HEART:
-          if (record->event.pressed) {
-              send_unicode_string("❤️");
-          };
-          break;
-      case CROSSBONES:
-          if (record->event.pressed) {
-              send_unicode_string("☠️");
-          };
-          break;
+
+        // Multi-character emoji macros
+        switch (keycode) {
+            case USA:
+                send_unicode_string("🇺🇸");
+                return false;
+            case FACEPALM:
+                send_unicode_string("🤦‍♂️");
+                return false;
+            case HEART:
+                send_unicode_string("❤️");
+                return false;
+            case CROSSBONES:
+                send_unicode_string("☠️");
+                return false;
+        }
     }
     return true;
 };
+
+// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+//     switch (keycode) {
+//     case HEART:
+//         if (record->event.pressed) {
+//             // when keycode QMKBEST is pressed
+//             SEND_STRING("QMK is the best thing ever!");
+//         } else {
+//             // when keycode QMKBEST is released
+//             SEND_STRING("QMK is still the best thing ever!");
+//         }
+//         break;
+//     }
+//     return true;
+// };
+
 
 
 // enum {
@@ -227,7 +234,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 */
  [_BASE_LAYER] = KEYMAP(
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSPC,
-    KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, KC_LBRC, KC_RBRC, KC_BSLS,  
+    KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, KC_LBRC, KC_RBRC, KC_BSLS,
     KC_CAPS, KC_A, KC_R, KC_S, KC_T, KC_G, KC_M, KC_N, KC_E, KC_I, KC_O, KC_QUOT, KC_ENT,              // consider replacing KC_QUOT with TD(TD_QUOTE);
     KC_LSFT, KC_X, KC_C, KC_D, KC_V, KC_Z, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
     KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
@@ -325,11 +332,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   *
   */
  [_EMOJI_LAYER] = KEYMAP(
-    _______, X(_100), X(POOP), _______, X(MASK), XP(SNAKE, EGGPLANT), _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, XP(WINK, TONGUE), X(FIRE), XP(PARTY, SIREN), _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, X(_100), X(POOP), HEART, X(MASK), XP(SNAKE, EGGPLANT), CROSSBONES, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, XP(WINK, TONGUE), X(FIRE), XP(PARTY, SIREN), _______, _______, _______, USA, _______, _______, _______, _______, _______,
     _______, _______, XP(SICK, PUKE), XP(SMILE, GRIN), XP(THUMBS_UP, THUMBS_DOWN), XP(THIS, FINGERS_CROSSED), X(MIDDLE_FINGER), _______, XP(EYEROLL, HEAD_EXPLODE), _______, _______, _______, _______,
-    _______, XP(DEAD, SKULL), XP(CRY, GRIT), XP(FROWN, SAD), _______, _______, _______, X(HUG), _______, XP(WUT, NO_MOUTH), XP(HMM, UPSIDE_DOWN), _______,
-    _______, _______, _______, _______, _______, _______, _______, _______      
+    _______, XP(DEAD, SKULL), XP(CRY, GRIT), XP(FROWN, SAD), _______, _______, FACEPALM, X(HUG), _______, XP(WUT, NO_MOUTH), XP(HMM, UPSIDE_DOWN), _______,
+    _______, _______, _______, _______, _______, _______, _______, _______
  ),
 };
 const uint16_t keymaps_size = sizeof(keymaps);
@@ -341,7 +348,7 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {    // remember to keep this function even if I remove the timeout code
   // idle_timer needs to be set one time
     if (idle_timer == 0) idle_timer = timer_read();
-   
+
     if (timer_elapsed(idle_timer) > 1000) {
         second_counter++;
         idle_timer = timer_read();
