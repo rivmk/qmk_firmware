@@ -10,7 +10,7 @@ static bool qwerty = false;
 static bool caps = false;
 
 enum anne_pro_layers {
-  _BASE_LAYER = SAFE_RANGE,
+  _BASE_LAYER,
   _QWERTY_LAYER,
   _FN1_LAYER,
   _FN2_LAYER,
@@ -18,7 +18,7 @@ enum anne_pro_layers {
 };
 
 enum profile {
-  RED = SAFE_RANGE,
+  RED,
   GREEN,
   BLUE,
   RAINBOWHORIZONTAL,
@@ -31,7 +31,7 @@ enum profile {
 };
 
 enum unicode_names {
-  SMILE = SAFE_RANGE,   // 🙂
+  SMILE,                // 🙂
   GRIN,                 // 😁
   FROWN,                // 🙁
   SAD,                  // 😔
@@ -145,20 +145,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Multi-character emoji macros
     switch (keycode) {
       case USA:
-          if (record->event.pressed)
-              send_unicode_hex_string("1f1fa 1f1f8");
+          if (record->event.pressed) {
+              send_unicode_string("🇺🇸");
+          };
           break;
       case FACEPALM:
-          if (record->event.pressed)
-              send_unicode_hex_string("1f926 200d 2642 fe0f");
+          if (record->event.pressed) {
+              send_unicode_string("🤦‍♂️");
+          };
           break;
       case HEART:
-          if (record->event.pressed)
-              send_unicode_hex_string("2764 fe0f");
+          if (record->event.pressed) {
+              send_unicode_string("❤️");
+          };
           break;
       case CROSSBONES:
-          if (record->event.pressed)
-              send_unicode_hex_string("2620 fe0f");
+          if (record->event.pressed) {
+              send_unicode_string("☠️");
+          };
           break;
     }
     return true;
@@ -218,7 +222,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 * |-----------------------------------------------------------------------------------------+
 * |            |     |     |     |     |     |     |     |     |     |     |       UP       |
 * |-----------------------------------------------------------------------------------------+
-* |       |       |       |                                 |  LEFT |  LEFT | DOWN  | RIGHT |
+* |       |       |       |                                 |       |  LEFT | DOWN  | RIGHT |
 * \-----------------------------------------------------------------------------------------/
 */
  [_BASE_LAYER] = KEYMAP(
@@ -226,7 +230,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, KC_LBRC, KC_RBRC, KC_BSLS,  
     KC_CAPS, KC_A, KC_R, KC_S, KC_T, KC_G, KC_M, KC_N, KC_E, KC_I, KC_O, KC_QUOT, KC_ENT,              // consider replacing KC_QUOT with TD(TD_QUOTE);
     KC_LSFT, KC_X, KC_C, KC_D, KC_V, KC_Z, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, RALT_T(KC_LEFT), LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
+    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
  /*
 * Layer _QWERTY_LAYER
@@ -251,7 +255,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 * |-----------------------------------------------------------------------------------------+
 * |            |     |     |     |     |     |     |     |     |     |     |       UP       |
 * |-----------------------------------------------------------------------------------------+
-* |       |       |       |                                 |  LEFT |  LEFT | DOWN  | RIGHT |
+* |       |       |       |                                 |       |  LEFT | DOWN  | RIGHT |
 * \-----------------------------------------------------------------------------------------/
 */
  [_QWERTY_LAYER] = KEYMAP(
@@ -259,7 +263,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
     KC_CAPS, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT,         // consider replacing KC_QUOT with TD(TD_QUOTE);
     KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, RALT_T(KC_LEFT), LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
+    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
   /*
   * Layer _FN1_LAYER
@@ -321,10 +325,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   *
   */
  [_EMOJI_LAYER] = KEYMAP(
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, SMILE, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, X(_100), X(POOP), _______, X(MASK), XP(SNAKE, EGGPLANT), _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, XP(WINK, TONGUE), X(FIRE), XP(PARTY, SIREN), _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, XP(SICK, PUKE), XP(SMILE, GRIN), XP(THUMBS_UP, THUMBS_DOWN), XP(THIS, FINGERS_CROSSED), X(MIDDLE_FINGER), _______, XP(EYEROLL, HEAD_EXPLODE), _______, _______, _______, _______,
+    _______, XP(DEAD, SKULL), XP(CRY, GRIT), XP(FROWN, SAD), _______, _______, _______, X(HUG), _______, XP(WUT, NO_MOUTH), XP(HMM, UPSIDE_DOWN), _______,
     _______, _______, _______, _______, _______, _______, _______, _______      
  ),
 };

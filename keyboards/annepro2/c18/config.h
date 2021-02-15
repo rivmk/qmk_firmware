@@ -69,6 +69,9 @@
 // #define NO_AUTO_SHIFT_NUMERIC
 // #define NO_AUTO_SHIFT_SPECIAL_QUOTE
 
+// Unicode Input Mode -- currently set to use WinCompose
+#define UNICODE_SELECTED_MODES UC_WINC
+
 #if defined(ANNEPRO2_EEPROM)
 // SPI Config
 #define SPI_DRIVER SPID1
@@ -200,4 +203,3 @@
 //#define NO_ACTION_ONESHOT
 #define NO_ACTION_MACRO
 #define NO_ACTION_FUNCTION
-
