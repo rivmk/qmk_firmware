@@ -15,6 +15,7 @@
 *.sym
 *.swp
 *.lnk
+*.code-workspace
 tags
 *~
 build/

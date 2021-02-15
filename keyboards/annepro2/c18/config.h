@@ -62,7 +62,7 @@
 #define DEBOUNCE 5
 
 // Tapping Term
-// #define TAPPING_TERM 150
+#define TAPPING_TERM 175
 
 // // Auto-shift stuff
 // #define NO_AUTO_SHIFT_ALPHA
@@ -201,5 +201,5 @@
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
-#define NO_ACTION_MACRO
-#define NO_ACTION_FUNCTION
+//#define NO_ACTION_MACRO
+//#define NO_ACTION_FUNCTION
