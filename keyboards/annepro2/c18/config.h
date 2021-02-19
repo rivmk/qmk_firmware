@@ -72,6 +72,7 @@
 
 // Unicode Input Mode -- currently set to use WinCompose
 #define UNICODE_SELECTED_MODES UC_WINC
+#define UNICODE_KEY_WINC KC_F24
 
 #if defined(ANNEPRO2_EEPROM)
 // SPI Config

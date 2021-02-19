@@ -21,6 +21,7 @@ enum profile {
   RED,
   GREEN,
   BLUE,
+  MIAMINIGHTS,
   RAINBOWHORIZONTAL,
   RAINBOWVERTICAL,
   ANIMATEDRAINBOWVERTICAL,
@@ -361,7 +362,7 @@ void keyboard_post_init_user(void) {
 
     // Additionally, it also chooses the first LED profile by default. Refer to the "profiles" array in main.c in
     // annepro2-shine to see the order. Replace "i" with the index of your preferred profile. (i.e the RED profile is index 0)
-    annepro2LedSetProfile(3);
+    annepro2LedSetProfile(4);
 }
 
 layer_state_t layer_state_set_user(layer_state_t layer) {
