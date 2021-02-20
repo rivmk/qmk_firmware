@@ -68,7 +68,7 @@ enum unicode_names {
 };
 
 enum custom_keycodes {
-  USA = AP2_SAFE_RANGE, // 🇺🇸
+  USA = AP2_SAFE_RANGE + 5,// 🇺🇸
   FACEPALM,             // 🤦‍♂️
   HEART,                // ❤️
   CROSSBONES,           // ☠️
