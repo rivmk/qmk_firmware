@@ -8,6 +8,7 @@ static uint16_t idle_timer = 0;
 static uint8_t second_counter = 0;
 static bool qwerty = false;
 static bool caps = false;
+static bool f21_tracker = false;
 
 enum anne_pro_layers {
   _BASE_LAYER,
@@ -72,7 +73,7 @@ enum custom_keycodes {
   FACEPALM,             // 🤦‍♂️
   HEART,                // ❤️
   CROSSBONES,           // ☠️
-  IMG_MC,
+  EMOJI,                // Macro for when emoji layer is activated (allows for signal to AHK for image purposes)
 };
 
 const uint32_t PROGMEM unicode_map[] = {      // see https://cryptii.com/pipes/unicode-lookup
@@ -156,10 +157,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             case CROSSBONES:
                 send_unicode_string("☠️");
                 return false;
+
+            case EMOJI:
+                if (record->event.pressed) {
+                    layer_invert(_EMOJI_LAYER);
+                    register_code(KC_F21);
+                    f21_tracker = true;
+                }
+                break;              // Second part is in post_process below
+        break;
+
         }
     }
     return true;
 };
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case EMOJI:
+      if (!record->event.pressed) {
+        f21_tracker = false;
+        if (!f21_tracker) {
+            unregister_code(KC_F21); //this means to send F22 up
+            layer_invert(_EMOJI_LAYER);
+        }
+      }
+      break;
+  }
+}
 
 // Tap Dance Stuff
 enum {
@@ -172,7 +197,16 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case RSFT_T(KC_SPC):
+        case SFT_T(KC_SPC):
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SFT_T(KC_SPC):
             return true;
         default:
             return false;
@@ -206,11 +240,11 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 * ,-----------------------------------------------------------------------------------------.
 * | esc |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |    Bksp   |
 * |-----------------------------------------------------------------------------------------+
-* | Tab    |  q  |  w  |  f  |  p  |  b  |  j  |  l  |  u  |  y  |  ;  |  [  |  ]  |   \    |
+* | Tab    |  q  |  w  |  f  |  p  |  b  |  [  |  j  |  l  |  u  |  y  |  '  |  ;  |   \    |
 * |-----------------------------------------------------------------------------------------+
-* | Caps    |  a  |  r  |  s  |  t  |  g  |  m  |  n  |  e  |  i  |  o  |  '  |    Enter    |
+* | Caps    |  a  |  r  |  s  |  t  |  g  |  ]  |  m  |  n  |  e  |  i  |  o  |    Enter    |
 * |-----------------------------------------------------------------------------------------+
-* | Shift      |  x  |  c  |  d  |  v  |  z  |  k  |  h  |  ,  |  .  |  /  |    Shift       |
+* | Shift      |  x  |  c  |  d  |  v  |  z  |  /  |  k  |  h  |  ,  |  .  |    Shift       |
 * |-----------------------------------------------------------------------------------------+
 * | Ctrl  |  L1   |  Alt  |               space             |  Alt  |  FN1  |  FN2  | Ctrl  |
 * \-----------------------------------------------------------------------------------------/
@@ -229,10 +263,10 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 */
  [_BASE_LAYER] = KEYMAP(
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSPC,
-    KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_J, KC_L, KC_U, KC_Y, KC_SCLN, KC_LBRC, KC_RBRC, KC_BSLS,
-    KC_F22, KC_A, KC_R, KC_S, KC_T, KC_G, KC_M, KC_N, KC_E, KC_I, KC_O, TD(TD_QUOTE), KC_ENT,              // consider replacing KC_QUOT with TD(TD_QUOTE);
-    KC_LSFT, KC_X, KC_C, KC_D, KC_V, KC_Z, KC_K, KC_H, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    KC_LCTL, KC_LGUI, KC_LALT, RSFT_T(KC_SPC), KC_F23, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
+    KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_LBRC, KC_J, KC_L, KC_U, KC_Y, TD(TD_QUOTE), KC_SCLN, KC_BSLS,
+    KC_F22, KC_A, KC_R, KC_S, KC_T, KC_G, KC_RBRC, KC_M, KC_N, KC_E, KC_I, KC_O, KC_ENT,              // consider replacing KC_QUOT with TD(TD_QUOTE);
+    KC_LSFT, KC_X, KC_C, KC_D, KC_V, KC_Z, KC_SLSH, KC_K, KC_H, KC_COMM, KC_DOT, RSFT_T(KC_UP),
+    KC_LCTL, KC_LGUI, KC_LALT, SFT_T(KC_SPC), KC_F23, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
  /*
 * Layer _QWERTY_LAYER
@@ -265,7 +299,7 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
     KC_F22, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, TD(TD_QUOTE), KC_ENT,         // consider replacing KC_QUOT with TD(TD_QUOTE);
     KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    KC_LCTL, KC_LGUI, KC_LALT, RSFT_T(KC_SPC), KC_F23, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
+    KC_LCTL, KC_LGUI, KC_LALT, SFT_T(KC_SPC), KC_F23, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
   /*
   * Layer _FN1_LAYER
@@ -287,7 +321,7 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     _______, _______, KC_UP, _______, _______, _______, _______, _______, KC_UP, _______, KC_PSCR, KC_HOME, KC_END, _______,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGUP, KC_PGDN, _______,
     _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_MPLY, _______, _______, _______, KC_INS, KC_DEL, _______,
-    C(S(G(KC_DEL))), C(S(G(KC_PGDN))), C(S(G(KC_PGUP))), C(S(G(KC_PAUS))), _______, _______, MO(_EMOJI_LAYER), _______          // The weird keycodes are to trigger media controls through AHK until the bug gets fixed
+    C(S(G(KC_DEL))), C(S(G(KC_PGDN))), C(S(G(KC_PGUP))), C(S(G(KC_PAUS))), _______, _______, EMOJI, _______          // The weird keycodes are to trigger media controls through AHK until the bug gets fixed
 ),
   /*
   * Layer _FN2_LAYER
@@ -309,18 +343,18 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     _______, _______, KC_UP, _______, _______, _______, _______, _______, _______, _______, KC_PSCR, KC_HOME, KC_END, _______,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, KC_PGUP, KC_PGDN, _______,
     _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_MPLY, _______, _______, _______, KC_INS, KC_DEL, _______,
-    C(S(G(KC_DEL))), C(S(G(KC_PGDN))), C(S(G(KC_PGUP))), KC_SPC, _______, MO(_EMOJI_LAYER), _______, _______      // The weird keycodes are to trigger media controls through AHK until the bug gets fixed
+    C(S(G(KC_DEL))), C(S(G(KC_PGDN))), C(S(G(KC_PGUP))), KC_SPC, _______, EMOJI, _______, _______      // The weird keycodes are to trigger media controls through AHK until the bug gets fixed
  ),
 /*
   * Layer _EMOJI_LAYER
   * ,-----------------------------------------------------------------------------------------.
-  * |SLEEP| BT1 | BT2 | BT3 | BT4 |     |     |     |     |LEDOF|LEDON|LDNXT|LDSPD|  QWERTY   |
+  * |    | 💯  | 💩  | ❤️  | 😷 |🐍/🍆| ☠️ |     |     |     |     |     |     |           |
   * |-----------------------------------------------------------------------------------------+
-  * |        |     | UP  |     |     |     |     |     | UP  |     | PS | HOME | END |        |
+  * |        |😉😋| 🔥 |🎉🚨|     |     |     |     | 🇺🇸  |     |     |      |      |        |
   * |-----------------------------------------------------------------------------------------+
-  * |         |LEFT |DOWN |RIGHT|     |     |     |LEFT |DOWN |RIGHT|PGUP |PGDN |             |
+  * |         |     |🤢🤮|🙂😁|👍👎 |👆🤞 |     | 🖕  |     |🙄🤯 |PGUP |PGDN |            |
   * |-----------------------------------------------------------------------------------------+
-  * |            |     |     |     |     |     |     |     |     |INSRT| DEL |                |
+  * |            |😵💀 |😭😬|🙁😔|     |     |     | 🤦‍♂️ | 🤗 |😳😶|😳🙃|                |
   * |-----------------------------------------------------------------------------------------+
   * | MUTE  | V-DWN | V-UP  |             PLAY_PAUSE          |       |  Fn1  |  Fn2  |       |
   * \-----------------------------------------------------------------------------------------/
@@ -328,10 +362,10 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
   */
  [_EMOJI_LAYER] = KEYMAP(
     _______, X(_100), X(POOP), HEART, X(MASK), XP(SNAKE, EGGPLANT), CROSSBONES, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, XP(WINK, TONGUE), X(FIRE), XP(PARTY, SIREN), _______, _______, _______, USA, _______, _______, _______, _______, _______,
-    _______, _______, XP(SICK, PUKE), XP(SMILE, GRIN), XP(THUMBS_UP, THUMBS_DOWN), XP(THIS, FINGERS_CROSSED), X(MIDDLE_FINGER), _______, XP(EYEROLL, HEAD_EXPLODE), _______, _______, _______, _______,
-    _______, XP(DEAD, SKULL), XP(CRY, GRIT), XP(FROWN, SAD), _______, _______, FACEPALM, X(HUG), _______, XP(WUT, NO_MOUTH), XP(HMM, UPSIDE_DOWN), _______,
-    _______, _______, _______, _______, _______, _______, _______, _______
+    _______, _______, XP(WINK, TONGUE), X(FIRE), XP(PARTY, SIREN), _______, _______, _______, _______, USA, _______, _______, _______, _______,
+    _______, _______, XP(SICK, PUKE), XP(SMILE, GRIN), XP(THUMBS_UP, THUMBS_DOWN), XP(THIS, FINGERS_CROSSED), _______, X(MIDDLE_FINGER), _______, XP(EYEROLL, HEAD_EXPLODE), _______, _______, _______,
+    _______, XP(DEAD, SKULL), XP(CRY, GRIT), XP(FROWN, SAD), _______, _______, _______, FACEPALM, X(HUG), XP(WUT, NO_MOUTH), XP(HMM, UPSIDE_DOWN), _______,
+    _______, _______, _______, _______, _______, EMOJI, EMOJI, _______
  ),
 };
 const uint16_t keymaps_size = sizeof(keymaps);
@@ -389,13 +423,3 @@ layer_state_t layer_state_set_user(layer_state_t layer) {
   }
   return layer;
 }
-
-// This is some code that might be used to make the caps lock light work better with EPKL
-  // if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)){
-  //     #ifdef AUDIO_ENABLE
-  // 	    PLAY_SONG(tone_caps_off);
-  //     #endif
-  // } else {
-  // 	#ifdef AUDIO_ENABLE
-  // 		PLAY_SONG(tone_caps_on);
-	// #endif
