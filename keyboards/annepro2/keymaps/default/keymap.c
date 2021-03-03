@@ -33,205 +33,186 @@ enum profile {
 };
 
 enum unicode_names {
-  SMILE,                // 🙂
-  GRIN,                 // 😁
-  FROWN,                // 🙁
-  SAD,                  // 😔
-  WINK,                 // 😉
-  CRY,                  // 😭
-  LAUGH,                // 😅
-  THUMBS_UP,            // 👍
-  THUMBS_DOWN,          // 👎
-  FIRE,                 // 🔥
-  HMM,                  // 🤔
-  PARTY,                // 🎉
-  UPSIDE_DOWN,          // 🙃
-  THIS,                 // 👆
-  SICK,                 // 🤢
-  PUKE,                 // 🤮
-  GRIT,                 // 😬
-  HEAD_EXPLODE,         // 🤯
-  MASK,                 // 😷
-  SNAKE,                // 🐍
-  EGGPLANT,             // 🍆
-  _100,                 // 💯
-  EYEROLL,              // 🙄
-  SIREN,                // 🚨
-  MIDDLE_FINGER,        // 🖕
-  FINGERS_CROSSED,      // 🤞
-  TONGUE,               // 😋
-  HUG,                  // 🤗
-  POOP,                 // 💩
-  DEAD,                 // 😵
-  SKULL,                // 💀
-  WUT,                  // 😳
-  NO_MOUTH,             // 😶
+    SMILE,              // 🙂
+    GRIN,               // 😁
+    FROWN,              // 🙁
+    SAD,                // 😔
+    WINK,               // 😉
+    CRY,                // 😭
+    LAUGH,              // 😅
+    THUMBS_UP,          // 👍
+    THUMBS_DOWN,        // 👎
+    FIRE,               // 🔥
+    HMM,                // 🤔
+    PARTY1,             // 🎉
+    UPSIDE_DOWN,        // 🙃
+    THIS,               // 👆
+    SICK,               // 🤢
+    PUKE,               // 🤮
+    GRIT,               // 😬
+    HEAD_EXPLODE,       // 🤯
+    MASK,               // 😷
+    SNAKE,              // 🐍
+    EGGPLANT,           // 🍆
+    _100,               // 💯
+    EYEROLL,            // 🙄
+    SIREN,              // 🚨
+    MIDDLE_FINGER,      // 🖕
+    FINGERS_CROSSED,    // 🤞
+    TONGUE,             // 😋
+    HUG,                // 🤗
+    POOP,               // 💩
+    // DEAD,               // 😵
+    // SKULL,              // 💀   <-- can delete this line if I'm only gonna have the skull in the Crossbones macro
+    WUT,                // 😳
+    NO_MOUTH,           // 😶
+    LOVE_EYES,          // 😍
+    HEART_KISS,         // 😘
+    THERM,              // 🤒
+    ROCK,               // 🤘
+    HOVA,               // 🙌
+    FIST,               // ✊
+    PRAY,               // 🙏
+    PARTY_FACE,         // 🥳
+    // HEART2,             // 💓
+    KISS,               // 😚
+    CUSS,               // 🤬
+    ANGRY,              // 😡
+    SNORT,              // 😤
+    SHH,                // 🤫
+    ZIPPER,             // 🤐
+    CLAP,               // 👏
+    COOL,               // 😎
+    MONOCLE,            // 🧐
+    DOWN,               // 👇
+    HAPPY_HEARTS,       // 🥰
+    // COLD,               // 🥶
+    // HOT,                // 🥵
+    CAKE,               // 🎂
+    PARTY2,             // 🎊
+    BEER1,              // 🍺
+    BEER2,              // 🍻
+    BOTTLE,             // 🍼
+    // COP_CAR,            // 🚓
+    JOKER,              // 🃏
+    SPEECH,             // 💬
+    THOUGHT,            // 💭
+    HANDS_OUT,          // 👐
+    HEAR_NO,            // 🙉
+    SEE_NO,             // 🙈
+    SPEAK_NO,           // 🙊
+    HAPPY_CAT,          // 😸
+    LOVE_CAT,           // 😻
+    SAD_CAT,            // 😿
+    MUSIC1,             // 🎵
+    MUSIC2,             // 🎶
+    // VULCAN,             // 🖖
+    OH,                 // 😮
+    DRUNK,              // 🥴
+    // UMM,                // 😕
 };
 
 enum custom_keycodes {
-  USA = AP2_SAFE_RANGE + 5,// 🇺🇸
-  FACEPALM,             // 🤦‍♂️
-  HEART,                // ❤️
-  CROSSBONES,           // ☠️
-  EMOJI,                // Macro for when emoji layer is activated (allows for signal to AHK for image purposes)
+    USA = AP2_SAFE_RANGE + 5,// 🇺🇸
+    FACEPALM,                // 🤦‍♂️
+    HEART,                   // ❤️
+    CROSSBONES,              // ☠️
+    RAISE_HAND,              // 🙋‍♂
+    COFFIN,                  // ⚰
+    SNOWFLAKE,               // ❄
+    CHILI,                   // 🌶
+    SCALES,                  // ⚖️
+    BACK,                    // ⏮
+    FORWARD,                 // ⏭
+    PEACE,                   // ✌
+    SHRUG,                   // 🤷‍♂️
+
+    EMOJI,                   // Macro for when emoji layer is activated (allows for signal to AHK for image purposes)
 };
 
 const uint32_t PROGMEM unicode_map[] = {      // see https://cryptii.com/pipes/unicode-lookup
-  [SMILE]             = 0x1f642,     // 🙂
-  [GRIN]              = 0x1f601,     // 😁
-  [FROWN]             = 0x1f641,     // 🙁
-  [SAD]               = 0x1f614,     // 😔
-  [WINK]              = 0x1f609,     // 😉
-  [CRY]               = 0x1f62d,     // 😭
-  [LAUGH]             = 0x1f605,     // 😅
-  [THUMBS_UP]         = 0x1f44d,     // 👍
-  [THUMBS_DOWN]       = 0x1f44e,     // 👎
-  [FIRE]              = 0x1f525,     // 🔥
-  [HMM]               = 0x1f914,     // 🤔
-  [PARTY]             = 0x1f389,     // 🎉
-  [UPSIDE_DOWN]       = 0x1f643,     // 🙃
-  [THIS]              = 0x1f446,     // 👆
-  [SICK]              = 0x1f922,     // 🤢
-  [PUKE]              = 0x1f92e,     // 🤮
-  [GRIT]              = 0x1f62c,     // 😬
-  [HEAD_EXPLODE]      = 0x1f92f,     // 🤯
-  [MASK]              = 0x1f637,     // 😷
-  [SNAKE]             = 0x1f40d,     // 🐍
-  [EGGPLANT]          = 0x1f346,     // 🍆
-  [_100]              = 0x1f4af,     // 💯
-  [EYEROLL]           = 0x1f644,     // 🙄
-  [SIREN]             = 0x1f6a8,     // 🚨
-  [MIDDLE_FINGER]     = 0x1f595,     // 🖕
-  [FINGERS_CROSSED]   = 0x1f91e,     // 🤞
-  [TONGUE]            = 0x1f60b,     // 😋
-  [HUG]               = 0x1f917,     // 🤗
-  [POOP]              = 0x1f4a9,     // 💩
-  [DEAD]              = 0x1f635,     // 😵
-  [SKULL]             = 0x1f480,     // 💀
-  [WUT]               = 0x1f633,     // 😳
-  [NO_MOUTH]          = 0x1f636,     // 😶
+    [SMILE]             = 0x1f642,     // 🙂
+    [GRIN]              = 0x1f601,     // 😁
+    [FROWN]             = 0x1f641,     // 🙁
+    [SAD]               = 0x1f614,     // 😔
+    [WINK]              = 0x1f609,     // 😉
+    [CRY]               = 0x1f62d,     // 😭
+    [LAUGH]             = 0x1f605,     // 😅
+    [THUMBS_UP]         = 0x1f44d,     // 👍
+    [THUMBS_DOWN]       = 0x1f44e,     // 👎
+    [FIRE]              = 0x1f525,     // 🔥
+    [HMM]               = 0x1f914,     // 🤔
+    [PARTY1]             = 0x1f389,     // 🎉
+    [UPSIDE_DOWN]       = 0x1f643,     // 🙃
+    [THIS]              = 0x1f446,     // 👆
+    [SICK]              = 0x1f922,     // 🤢
+    [PUKE]              = 0x1f92e,     // 🤮
+    [GRIT]              = 0x1f62c,     // 😬
+    [HEAD_EXPLODE]      = 0x1f92f,     // 🤯
+    [MASK]              = 0x1f637,     // 😷
+    [SNAKE]             = 0x1f40d,     // 🐍
+    [EGGPLANT]          = 0x1f346,     // 🍆
+    [_100]              = 0x1f4af,     // 💯
+    [EYEROLL]           = 0x1f644,     // 🙄
+    [SIREN]             = 0x1f6a8,     // 🚨
+    [MIDDLE_FINGER]     = 0x1f595,     // 🖕
+    [FINGERS_CROSSED]   = 0x1f91e,     // 🤞
+    [TONGUE]            = 0x1f60b,     // 😋
+    [HUG]               = 0x1f917,     // 🤗
+    [POOP]              = 0x1f4a9,     // 💩
+    // [DEAD]              = 0x1f635,     // 😵
+    // [SKULL]             = 0x1f480,     // 💀  <-- can delete this line if I'm only gonna have the skull in the Crossbones macro
+    [WUT]               = 0x1f633,     // 😳
+    [NO_MOUTH]          = 0x1f636,     // 😶
+    [LOVE_EYES]         = 0x1f60d,     // 😍
+    [HEART_KISS]		= 0x1f618,     // 😘
+    [THERM]			    = 0x1f912,     // 🤒
+    [ROCK]		        = 0x1f918,     // 🤘
+    [HOVA]		        = 0x1f64c,     // 🙌
+    [FIST]		        = 0x0270a,     // ✊
+    [PRAY]		        = 0x1f64f,     // 🙏
+    [PARTY_FACE]	   	= 0x1f973,     // 🥳
+    // [HEART2]		   	= 0x1f493,     // 💓
+    [KISS]		        = 0x1f61a,     // 😚
+    [CUSS]		        = 0x1f92c,     // 🤬
+    [ANGRY]	    	  	= 0x1f621,     // 😡
+    [SNORT]		        = 0x1f624,     // 😤
+    [SHH]		        = 0x1f92b,     // 🤫
+    [ZIPPER]		  	= 0x1f910,     // 🤐
+    [CLAP]		        = 0x1f44f,     // 👏
+    [COOL]		        = 0x1f60e,     // 😎
+    [MONOCLE]		  	= 0x1f9d0,     // 🧐
+    [DOWN]		        = 0x1f447,     // 👇
+    [HAPPY_HEARTS]	  	= 0x1f970,     // 🥰
+    // [COLD]		        = 0x1f976,     // 🥶
+    // [HOT]		        = 0x1f975,     // 🥵
+    [CAKE]		        = 0x1f382,     // 🎂
+    [PARTY2]		  	= 0x1f38a,     // 🎊
+    [BEER1]		        = 0x1f37a,     // 🍺
+    [BEER2]		        = 0x1f37b,     // 🍻
+    // [COP_CAR]		   	= 0x1f693,     // 🚓
+    [JOKER]		        = 0x1f0cf,     // 🃏
+    [SPEECH]		   	= 0x1f4ac,     // 💬
+    [THOUGHT]		   	= 0x1f4ad,     // 💭
+    [HANDS_OUT]		   	= 0x1f450,     // 👐
+    [HEAR_NO]		   	= 0x1f649,     // 🙉
+    [SEE_NO]		   	= 0x1f648,     // 🙈
+    [SPEAK_NO]		   	= 0x1f64a,     // 🙊
+    [HAPPY_CAT]		   	= 0x1f638,     // 😸
+    [LOVE_CAT]		   	= 0x1f63b,     // 😻
+    [SAD_CAT]		   	= 0x1f63f,     // 😿
+    [MUSIC1]		   	= 0x1f3b5,     // 🎵
+    [MUSIC2]		   	= 0x1f3b6,     // 🎶
+    // [VULCAN]		    = 0x1f596,     // 🖖
+    [OH]			    = 0x1f62e,     // 😮
+    [DRUNK]			    = 0x1f974,     // 🥴
+    // [UMM]			    = 0x1f615,     // 😕
 };
-
-// The function to handle the caps lock logic
-bool led_update_user(led_t leds) {
-  if (leds.caps_lock) {
-    // Set the leds to red
-    annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
-    caps = true;
-  } else {
-    caps = false;
-    // Reset back to the current profile if there is no layer active
-    if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_QWERTY_LAYER)) {
-      annepro2LedResetForegroundColor();
-    }
-  }
-  return true;
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        // LED Timeout Code
-        if (caps) {
-            annepro2LedEnable();
-            annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
-        } else if (qwerty) {
-            annepro2LedEnable();
-            annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);
-        } else {
-            annepro2LedEnable();
-        }
-        idle_timer = timer_read();
-        second_counter = 0;
-
-        // Multi-character emoji macros
-        switch (keycode) {
-            case USA:
-                send_unicode_string("🇺🇸");
-                return false;
-            case FACEPALM:
-                send_unicode_string("🤦‍♂️");
-                return false;
-            case HEART:
-                send_unicode_string("❤️");
-                return false;
-            case CROSSBONES:
-                send_unicode_string("☠️");
-                return false;
-
-            case EMOJI:
-                if (record->event.pressed) {
-                    layer_invert(_EMOJI_LAYER);
-                    register_code(KC_F21);
-                    f21_tracker = true;
-                }
-                break;              // Second part is in post_process below
-        break;
-
-        }
-    }
-    return true;
-};
-
-void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case EMOJI:
-      if (!record->event.pressed) {
-        f21_tracker = false;
-        if (!f21_tracker) {
-            unregister_code(KC_F21); //this means to send F22 up
-            layer_invert(_EMOJI_LAYER);
-        }
-      }
-      break;
-  }
-}
 
 // Tap Dance Stuff
 enum {
   TD_QUOTE = 0
 };
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT,KC_DQUO)
-};
-
-bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case SFT_T(KC_SPC):
-            return true;
-        default:
-            return false;
-    }
-}
-
-bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case SFT_T(KC_SPC):
-            return true;
-        default:
-            return false;
-    }
-}
-
-// void dance_quote_finished(qk_tap_dance_state_t *state, void *user_data) {
-//     if (state->count == 1) {
-//         register_code(KC_QUOT);
-//     } else {
-//         register_code16(KC_DQUO);
-//     }
-// }
-
-// void dance_quote_reset(qk_tap_dance_state_t *state, void *user_data) {
-//     if (state->count == 1) {
-//         unregister_code(KC_QUOT);
-//     } else {
-//         unregister_code16(KC_DQUO);
-//     }
-// }
-
-// qk_tap_dance_action_t tap_dance_actions[] = {
-//     [TD_QUOTE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_quote_finished, dance_quote_reset),
-// };
 
 // Key symbols are based on QMK. Use them to remap your keyboard
  const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -348,24 +329,24 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
 /*
   * Layer _EMOJI_LAYER
   * ,-----------------------------------------------------------------------------------------.
-  * |    | 💯  | 💩  | ❤️  | 😷 |🐍/🍆| ☠️ |     |     |     |     |     |     |           |
+  * |     |💯👏|💩🤬|❤️💓|😷🤒|🐍/🍆|💀☠️|🥶❄️|🥵🌶️|🙈😸|🙉😻|🙊😿 |🎵🎶|          |
   * |-----------------------------------------------------------------------------------------+
-  * |        |😉😋| 🔥 |🎉🚨|     |     |     |     | 🇺🇸  |     |     |      |      |        |
+  * |        |🤫🤐|😉😋|🤦‍♂️🙋‍♂️|🎉🎊|🍺🍻|🤗👐|⚖️🃏 |😍🥰|🇺🇸🚓|🤢🤮|💬💭 |⏮️⏭️ |       |
   * |-----------------------------------------------------------------------------------------+
-  * |         |     |🤢🤮|🙂😁|👍👎 |👆🤞 |     | 🖕  |     |🙄🤯 |PGUP |PGDN |            |
+  * |         |😡😤|🔥🚨 |🙂😁|👍👎 |😎🧐|🥳🎂|🖕🤘 |👆👇 |🙄🤯 |🙌✊ |😮🥴|            |
   * |-----------------------------------------------------------------------------------------+
-  * |            |😵💀 |😭😬|🙁😔|     |     |     | 🤦‍♂️ | 🤗 |😳😶|😳🙃|                |
+  * |   SHIFT    |😵⚰️|😭😬|🙁😔|✌️🖖 |🤞🙏 |🤷‍♂️😕 |😘😚|🤔🙃|😳😶|EmoPk|    SHIFT      |
   * |-----------------------------------------------------------------------------------------+
-  * | MUTE  | V-DWN | V-UP  |             PLAY_PAUSE          |       |  Fn1  |  Fn2  |       |
+  * |       |       |       |          SPACE/SHIFT            |       | EMOJI | EMOJI |       |
   * \-----------------------------------------------------------------------------------------/
   *
   */
  [_EMOJI_LAYER] = KEYMAP(
-    _______, X(_100), X(POOP), HEART, X(MASK), XP(SNAKE, EGGPLANT), CROSSBONES, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, XP(WINK, TONGUE), X(FIRE), XP(PARTY, SIREN), _______, _______, _______, _______, USA, _______, _______, _______, _______,
-    _______, _______, XP(SICK, PUKE), XP(SMILE, GRIN), XP(THUMBS_UP, THUMBS_DOWN), XP(THIS, FINGERS_CROSSED), _______, X(MIDDLE_FINGER), _______, XP(EYEROLL, HEAD_EXPLODE), _______, _______, _______,
-    _______, XP(DEAD, SKULL), XP(CRY, GRIT), XP(FROWN, SAD), _______, _______, _______, FACEPALM, X(HUG), XP(WUT, NO_MOUTH), XP(HMM, UPSIDE_DOWN), _______,
-    _______, _______, _______, _______, _______, EMOJI, EMOJI, _______
+    KC_ESC, XP(_100, CLAP), XP(POOP, CUSS), HEART, XP(MASK, THERM), XP(SNAKE, EGGPLANT), CROSSBONES, SNOWFLAKE, CHILI, XP(SEE_NO, HAPPY_CAT), XP(HEAR_NO, LOVE_CAT), XP(SPEAK_NO, SAD_CAT), XP(MUSIC1, MUSIC2), KC_BSPC,
+    _______, XP(SHH, ZIPPER), XP(WINK, TONGUE), FACEPALM, XP(PARTY1, PARTY2), XP(BEER1, BEER2), XP(HUG, HANDS_OUT), SCALES, XP(LOVE_EYES, HAPPY_HEARTS), USA, XP(SICK, PUKE), XP(SPEECH, THOUGHT), BACK, _______,
+    _______, XP(ANGRY, SNORT), XP(FIRE, SIREN), XP(SMILE, GRIN), XP(THUMBS_UP, THUMBS_DOWN), XP(COOL, MONOCLE), XP(PARTY_FACE, CAKE), XP(MIDDLE_FINGER, ROCK), XP(THIS, DOWN), XP(OH, DRUNK), XP(EYEROLL, HEAD_EXPLODE), XP(HOVA, FIST), _______,
+    KC_LSFT, COFFIN, XP(CRY, GRIT), XP(FROWN, SAD), PEACE, XP(FINGERS_CROSSED, PRAY), SHRUG, XP(HEART_KISS, KISS), XP(HMM, UPSIDE_DOWN), XP(WUT, NO_MOUTH), G(KC_DOT), KC_RSFT,
+    _______, _______, _______, SFT_T(KC_SPC), _______, EMOJI, EMOJI, _______
  ),
 };
 const uint16_t keymaps_size = sizeof(keymaps);
@@ -387,6 +368,201 @@ void matrix_scan_user(void) {    // remember to keep this function even if I rem
         second_counter = 0;
     }
 };
+
+// The function to handle the caps lock logic
+bool led_update_user(led_t leds) {
+  if (leds.caps_lock) {
+    // Set the leds to red
+    annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
+    caps = true;
+  } else {
+    caps = false;
+    // Reset back to the current profile if there is no layer active
+    if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_QWERTY_LAYER)) {
+      annepro2LedResetForegroundColor();
+    }
+  }
+  return true;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        // LED Timeout Code
+        if (caps) {
+            annepro2LedEnable();
+            annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
+        } else if (qwerty) {
+            annepro2LedEnable();
+            annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);
+        } else {
+            annepro2LedEnable();
+        }
+        idle_timer = timer_read();
+        second_counter = 0;
+
+        // Multi-character emoji macros
+        switch (keycode) {
+            case USA:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("🇺🇸");      // Default
+                } else {
+                    send_unicode_string("🚓");      // If shifted
+                }
+                return false;
+            case FACEPALM:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("🤦‍♂️");      // Default
+                } else {
+                    send_unicode_string("🙋‍♂️");      // If shifted
+                }
+                return false;
+            case HEART:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("❤️");      // Default
+                } else {
+                    send_unicode_string("💓");      // If shifted
+                }
+                return false;
+            case CROSSBONES:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("💀");      // Default
+                } else {
+                    send_unicode_string("☠️");      // If shifted
+                }
+                return false;
+            // case RAISE_HAND:             //Unneeded because raise hand is in the facepalm macro
+            //     if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+            //         send_unicode_string("🙋‍♂️");      // Default
+            //     } else {
+            //         send_unicode_string("");      // If shifted
+            //     }
+            //     return false;
+            case COFFIN:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("😵");      // Default
+                } else {
+                    send_unicode_string("⚰️");      // If shifted
+                }
+                return false;
+            case SNOWFLAKE:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("🥶");      // Default
+                } else {
+                    send_unicode_string("❄️");      // If shifted
+                }
+                return false;
+            case CHILI:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("🥵");      // Default
+                } else {
+                    send_unicode_string("🌶️");      // If shifted
+                }
+                return false;
+            case BACK:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("⏮️");      // Default
+                } else {
+                    send_unicode_string("⏭️");      // If shifted
+                }
+                return false;
+            // case FORWARD:
+            //     if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+            //         send_unicode_string("⏭️");      // Default
+            //     } else {
+            //         send_unicode_string("");      // If shifted
+            //     }
+            //     return false;
+            case PEACE:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("✌️");      // Default
+                } else {
+                    send_unicode_string("🖖");      // If shifted
+                }
+                return false;
+            case SHRUG:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("🤷‍♂️");      // Default
+                } else {
+                    send_unicode_string("😕");      // If shifted
+                }
+                return false;
+            case SCALES:
+                if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
+                    send_unicode_string("⚖️");      // Default
+                } else {
+                    send_unicode_string("🃏");      // If shifted
+                }
+                return false;
+
+            case EMOJI:
+                if (record->event.pressed) {
+                    layer_invert(_EMOJI_LAYER);
+                    register_code(KC_F21);
+                    f21_tracker = true;
+                }
+                break;              // Second part is in post_process below
+        break;
+
+        }
+    }
+    return true;
+};
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case EMOJI:
+      if (!record->event.pressed) {
+        f21_tracker = false;
+        if (!f21_tracker) {
+            unregister_code(KC_F21);        // this means to send F21 up
+            layer_invert(_EMOJI_LAYER);     // turns off the emoji layer
+        }
+      }
+      break;
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT,KC_DQUO)
+};
+
+// bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+//     switch (keycode) {
+//         case SFT_T(KC_SPC):
+//             return true;
+//         default:
+//             return false;
+//     }
+// }
+
+bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SFT_T(KC_SPC):
+            return true;
+        default:
+            return false;
+    }
+}
+
+                        // void dance_quote_finished(qk_tap_dance_state_t *state, void *user_data) {
+                        //     if (state->count == 1) {
+                        //         register_code(KC_QUOT);
+                        //     } else {
+                        //         register_code16(KC_DQUO);
+                        //     }
+                        // }
+
+                        // void dance_quote_reset(qk_tap_dance_state_t *state, void *user_data) {
+                        //     if (state->count == 1) {
+                        //         unregister_code(KC_QUOT);
+                        //     } else {
+                        //         unregister_code16(KC_DQUO);
+                        //     }
+                        // }
+
+                        // qk_tap_dance_action_t tap_dance_actions[] = {
+                        //     [TD_QUOTE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_quote_finished, dance_quote_reset),
+                        // };
 
 // Code to run after initializing the keyboard
 void keyboard_post_init_user(void) {

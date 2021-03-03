@@ -1,7 +1,7 @@
 @ECHO OFF
 
-choice /C YNX /T 5 /D C /M "Flash LED too? [Y]es | [N]o" /X
-if %ERRORLEVEL% EQU 3 goto flashLED
+choice /C YNX /T 2 /D X /M "Flash LED too? [Y]es | [N]o" /N
+if %ERRORLEVEL% EQU 3 goto flashKey
 timeout 10 /nobreak
 if %ERRORLEVEL% EQU 1 goto flashLED
 if %ERRORLEVEL% EQU 2 goto flashKey
