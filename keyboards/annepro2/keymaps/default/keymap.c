@@ -526,14 +526,14 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT,KC_DQUO)
 };
 
-// bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
-//     switch (keycode) {
-//         case SFT_T(KC_SPC):
-//             return true;
-//         default:
-//             return false;
-//     }
-// }
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SFT_T(KC_SPC):
+            return true;
+        default:
+            return false;
+    }
+}
 
 bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
