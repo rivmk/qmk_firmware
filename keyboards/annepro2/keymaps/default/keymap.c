@@ -9,6 +9,7 @@ static uint8_t second_counter = 0;
 static bool qwerty = false;
 static bool caps = false;
 static bool f21_tracker = false;
+uint8_t mod_state;
 
 enum anne_pro_layers {
   _BASE_LAYER,
@@ -127,6 +128,7 @@ enum custom_keycodes {
     PEACE,                   // ✌
     SHRUG,                   // 🤷‍♂️
 
+
     EMOJI,                   // Macro for when emoji layer is activated (allows for signal to AHK for image purposes)
 };
 
@@ -211,7 +213,8 @@ const uint32_t PROGMEM unicode_map[] = {      // see https://cryptii.com/pipes/u
 
 // Tap Dance Stuff
 enum {
-  TD_QUOTE = 0
+  TD_QUOTE = 0,
+  TD_DOT,
 };
 
 // Key symbols are based on QMK. Use them to remap your keyboard
@@ -246,7 +249,7 @@ enum {
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSPC,
     KC_TAB, KC_Q, KC_W, KC_F, KC_P, KC_B, KC_LBRC, KC_J, KC_L, KC_U, KC_Y, TD(TD_QUOTE), KC_SCLN, KC_BSLS,
     KC_F22, KC_A, KC_R, KC_S, KC_T, KC_G, KC_RBRC, KC_M, KC_N, KC_E, KC_I, KC_O, KC_ENT,              // consider replacing KC_QUOT with TD(TD_QUOTE);
-    KC_LSFT, KC_X, KC_C, KC_D, KC_V, KC_Z, KC_SLSH, KC_K, KC_H, KC_COMM, KC_DOT, RSFT_T(KC_UP),
+    KC_LSFT, KC_X, KC_C, KC_D, KC_V, KC_Z, KC_SLSH, KC_K, KC_H, KC_COMM, TD(TD_DOT), RSFT_T(KC_UP),
     KC_LCTL, KC_LGUI, KC_LALT, SFT_T(KC_SPC), KC_F23, LT(_FN1_LAYER,KC_LEFT), LT(_FN2_LAYER,KC_DOWN), RCTL_T(KC_RGHT)
 ),
  /*
@@ -372,20 +375,20 @@ void matrix_scan_user(void) {    // remember to keep this function even if I rem
 // The function to handle the caps lock logic
 bool led_update_user(led_t leds) {
   if (leds.caps_lock) {
-    // Set the leds to red
-    annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);
+    annepro2LedSetForegroundColor(0xFF, 0x00, 0x00);        // Set the leds to red
     caps = true;
   } else {
     caps = false;
-    // Reset back to the current profile if there is no layer active
     if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_QWERTY_LAYER)) {
-      annepro2LedResetForegroundColor();
+      annepro2LedResetForegroundColor();                    // Reset back to the current profile if there is no layer active
     }
   }
   return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    mod_state = get_mods();                         // This is for the Shift+Backspace → Del code that I stole
+
     if (record->event.pressed) {
         // LED Timeout Code
         if (caps) {
@@ -402,9 +405,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         // Multi-character emoji macros
         switch (keycode) {
+
+            // Emoji macros
             case USA:
                 if (!(get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))) {
-                    send_unicode_string("🇺🇸");      // Default
+                    send_unicode_string("🇺🇸");       // Default
                 } else {
                     send_unicode_string("🚓");      // If shifted
                 }
@@ -494,13 +499,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
                 return false;
 
+            // Emoji Layer selector macro (sends an additional key signal for AHK purposes)
             case EMOJI:
                 if (record->event.pressed) {
                     layer_invert(_EMOJI_LAYER);
                     register_code(KC_F21);
                     f21_tracker = true;
                 }
-                break;              // Second part is in post_process below
+                break;                              // Second part is in post_process below
+
+            // Stolen code that turns Shift+Backspace → Delete
+            case KC_BSPC:
+            {
+                static bool delkey_registered;
+                if (record->event.pressed) {
+                    if (mod_state & MOD_MASK_SHIFT) {
+                        // In case only one shift is held
+                        // see https://stackoverflow.com/questions/1596668/logical-xor-operator-in-c
+                        // This also means that in case of holding both shifts and pressing KC_BSPC,
+                        // Shift+Delete is sent (useful in Firefox) since the shift modifiers aren't deleted.
+                        if (!(mod_state & MOD_BIT(KC_LSHIFT)) != !(mod_state & MOD_BIT(KC_RSHIFT))) {
+                            del_mods(MOD_MASK_SHIFT);
+                        }
+                        register_code(KC_DEL);
+                        delkey_registered = true;
+                        set_mods(mod_state);
+                        return false;
+                    }
+                } else {
+                    if (delkey_registered) {
+                        unregister_code(KC_DEL);
+                        delkey_registered = false;
+                        return false;
+                    }
+                }
+                return true;
+            }
+
         break;
 
         }
@@ -522,8 +557,49 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
+void sentence_end(qk_tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+
+        // Double tapping TD_DOT produces
+        // ". <one-shot-shift>" i.e. dot, space and capitalize next letter.
+        // This helps to quickly end a sentence and begin another one
+        // without having to hit shift.
+        case 2:
+            /* Check that Shift is inactive */
+            if (!(get_mods() & MOD_MASK_SHIFT)) {
+                tap_code(KC_SPC);
+                /* Internal code of OSM(MOD_LSFT) */
+                add_oneshot_mods(MOD_BIT(KC_LSHIFT));
+
+            } else {
+                // send ">" (KC_DOT + shift → ">")
+                tap_code(KC_DOT);
+            }
+            break;
+
+        // Since `sentence_end` is called on each tap
+        // and not at the end of the tapping term,
+        // the third tap needs to cancel the effects
+        // of the double tap in order to get the expected
+        // three dots ellipsis.
+        case 3:
+            // remove the added space of the double tap case
+            tap_code(KC_BSPC);
+            // replace the space with a second dot
+            tap_code(KC_DOT);
+            // tap the third dot
+            tap_code(KC_DOT);
+            break;
+
+        // send KC_DOT on every normal tap of TD_DOT
+        default:
+            tap_code(KC_DOT);
+    }
+};
+
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT,KC_DQUO)
+  [TD_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT,KC_DQUO),
+  [TD_DOT] = ACTION_TAP_DANCE_FN_ADVANCED(sentence_end, NULL, NULL),
 };
 
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
@@ -543,26 +619,6 @@ bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
 }
-
-                        // void dance_quote_finished(qk_tap_dance_state_t *state, void *user_data) {
-                        //     if (state->count == 1) {
-                        //         register_code(KC_QUOT);
-                        //     } else {
-                        //         register_code16(KC_DQUO);
-                        //     }
-                        // }
-
-                        // void dance_quote_reset(qk_tap_dance_state_t *state, void *user_data) {
-                        //     if (state->count == 1) {
-                        //         unregister_code(KC_QUOT);
-                        //     } else {
-                        //         unregister_code16(KC_DQUO);
-                        //     }
-                        // }
-
-                        // qk_tap_dance_action_t tap_dance_actions[] = {
-                        //     [TD_QUOTE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_quote_finished, dance_quote_reset),
-                        // };
 
 // Code to run after initializing the keyboard
 void keyboard_post_init_user(void) {
