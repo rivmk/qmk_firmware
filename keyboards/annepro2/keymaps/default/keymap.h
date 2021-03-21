@@ -152,8 +152,7 @@ enum custom_keycodes {
     PEACE,                   // ✌
     SHRUG,                   // 🤷‍♂️
 
-    EXTEND1,                 // Macro for when ext is held
-    EXTEND2,                 // Macro for when ext is tapped
+    EXTEND,                  // Macro for when Ext layer is activated (sends exta key for AHK)
     EMOJI,                   // ---
 
     // _QK_TAP_HOLD,            // For the custom tap-hold code; needs to be last element in keycode list

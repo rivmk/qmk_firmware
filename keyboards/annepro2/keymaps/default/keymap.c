@@ -1,7 +1,11 @@
 /*=============================================
                       TODO
 
-    • Might want to simplify the extend macros--maybe tie F22 to when *layer* is activated/de-activated?
+    • Reconfigure the extend map a bit (swap bksp & del; put mouse movers together)
+        • Consider making Esc a abort key for the Ext layers
+    • Fill out the Kaomoji layer (and the other layer too, if wanted)
+    • Add Fn-key toggles for the shift-ext and alt-ext layers)
+        • Change image script to accept the new fn toggles
 =============================================*/
 
 #include <stdint.h>
@@ -15,11 +19,13 @@
 static uint16_t idle_timer = 0;
 static uint8_t second_counter = 0;
 static bool qwerty = false;
+static bool ext = false;
 static bool caps = false;
 
 // Trackers for the help images
 static bool f21_tracker = false;
 static bool f22_tracker = false;
+static uint16_t extTimer = 0;
 
 // Apparently needed for the shift+Backspace = Del code
 uint8_t mod_state;
@@ -81,7 +87,7 @@ uint8_t mod_state;
  [_BASE_LAYER] = KEYMAP(
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL, KC_BSPC,
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_LBRC, KC_J,    KC_L,    KC_U,    KC_Y,    TAP_QUO, KC_SCLN, KC_BSLS,
-    EXTEND1, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_RBRC, KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
+    EXTEND, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_RBRC, KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSFT, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    KC_SLSH, KC_K,    KC_H,    KC_COMM, TAP_DOT, MT_S_UP,
     KC_LCTL, KC_LGUI, KC_LALT,                   SFT_SPC,                   KC_F23,  LT_FN_1, LT_FN_2, MT_C_RT
 ),
@@ -309,7 +315,7 @@ bool led_update_user(led_t leds) {
     caps = true;
   } else {
     caps = false;
-    if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_QWERTY_LAYER)) {
+    if(!layer_state_is(_FN1_LAYER) && !layer_state_is(_FN2_LAYER) && !layer_state_is(_QWERTY_LAYER) && !layer_state_is(_EXT_LAYER)) {
       annepro2LedResetForegroundColor();                    // Reset back to the current profile if there is no layer active
     }
   }
@@ -330,13 +336,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else if (qwerty) {
             annepro2LedEnable();
             annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);
+        } else if (ext) {
+            annepro2LedEnable();
+            annepro2LedSetForegroundColor(0xCC, 0xCC, 0x00);
         } else {
             annepro2LedEnable();
         }
         idle_timer = timer_read();
         second_counter = 0;
 
-        // Multi-character emoji macros
         switch (keycode) {
 
             // Emoji macros
@@ -445,30 +453,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
 
 
-            // Extend Layer selector macro (sends an additional key signal for AHK purposes)
-            // TODO: Find some way to make this toggle-able (and also to work with the image script. Maybe send a diff Fn keycode when toggled?)
-            case EXTEND1:
+            // ELayer selector macros (these send additional key signals for AHK purposes)
+            case EXTEND:
                 if (record->event.pressed) {
+                    extTimer = timer_read();
                     layer_invert(_EXT_LAYER);
-                    register_code(KC_F22);              // Holds down F22 (for AHK image script)
-                    f22_tracker = true;
+                    if (!f22_tracker) {
+                        register_code(KC_F22);              // Holds down F22 (for AHK image script)
+                        f22_tracker = true;
+                    } else {                                // Should only fire if the key was tapped previously
+                        unregister_code(KC_F22);
+                        f22_tracker = false;
+                    }
                 }
-                break;                                  // Second part (when key is released) is in post_process below
-            // case EXTEND2:
-            //     if (record->event.pressed) {
-            //         if (!f22_tracker) {
-            //             layer_invert(_EXT_LAYER);       // Turn on the Ext layer when just tapped
-            //             register_code(KC_F22);          // Hold down F22 until Ext is tapped again
-            //             f22_tracker = true;
-            //         } else {
-            //             unregister_code(KC_F22);        // Release F22
-            //             layer_invert(_EXT_LAYER);       // Turns off the extend layer
-            //             f22_tracker = false;
-            //         }
-            //     }
-            //     break;
+                return true;
 
-            // Emoji Layer selector macro (sends an additional key signal for AHK purposes)
             case EMOJI:
                 if (record->event.pressed) {
                     layer_invert(_EMOJI_LAYER);
@@ -514,22 +513,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case EXTEND1:                           // For when Ext is released after being held
-      if (!record->event.pressed) {
-        f22_tracker = false;
-        if (!f22_tracker) {
-            unregister_code(KC_F22);        // Releases F22
-            layer_invert(_EXT_LAYER);       // Turns off the extend layer
+
+    case EXTEND:
+        if (!record->event.pressed) {
+            if (timer_elapsed(extTimer) >= TAPPING_TERM) {          // Only fires if Ext has been held down
+                layer_off(_EXT_LAYER);
+                unregister_code(KC_F22);
+                f22_tracker = false;
+            }
         }
-      }
-      break;
+        break;
 
     case EMOJI:
       if (!record->event.pressed) {
         f21_tracker = false;
         if (!f21_tracker) {
-            unregister_code(KC_F21);        // Releases F21
-            layer_invert(_EMOJI_LAYER);     // Turns off the emoji layer
+            unregister_code(KC_F21);                                // Releases F21
+            layer_invert(_EMOJI_LAYER);                             // Turns off the emoji layer
         }
       }
       break;
@@ -635,10 +635,20 @@ layer_state_t layer_state_set_user(layer_state_t layer) {
       annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);
       qwerty = true;
       break;
+
+    case _EXT_LAYER:
+    case _EXT_SHIFT_LAYER:
+    case _EXT_ALT_LAYER:
+    case _EXT_CTRL_LAYER:
+      // Set the leds to yellow
+      annepro2LedSetForegroundColor(0xCC, 0xCC, 0x00);
+      ext = true;
+      break;
     default:
       // Reset back to the current profile
       annepro2LedResetForegroundColor();
       qwerty = false;
+      ext = false;
       break;
   }
   return layer;
