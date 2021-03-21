@@ -32,7 +32,7 @@ OPT_DEFS = -fdump-rtl-dfinish -fstack-usage -Wno-unused-function
 # Keys
 CUSTOM_MATRIX = yes
 NKRO_ENABLE = no
-MOUSEKEY_ENABLE = no
+MOUSEKEY_ENABLE = yes
 EXTRAKEY_ENABLE = yes
 KEY_LOCK_ENABLE = no
 UNICODEMAP_ENABLE = yes
