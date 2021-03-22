@@ -24,10 +24,10 @@ enum anne_pro_layers {
 #define LT_FN_2     LT(_FN2_LAYER,KC_DOWN)
 #define TAP_QUO     TD(TD_QUOTE)
 #define TAP_DOT     TD(TD_DOT)
-#define VOL_MTE     HYPR(KC_DEL)
-#define VOL_DWN     HYPR(KC_PGDN)
-#define VOL_UP      HYPR(KC_PGUP)
-#define PAU_PLY     HYPR(KC_PAUS)
+#define VOL_MTE     C(S(G(KC_DEL)))
+#define VOL_DWN     C(S(G(KC_PGDN)))
+#define VOL_UP      C(S(G(KC_PGUP)))
+#define PAU_PLY     C(S(G(KC_PAUS)))
 #define BT_1        KC_AP2_BT1
 #define BT_2        KC_AP2_BT2
 #define BT_3        KC_AP2_BT3

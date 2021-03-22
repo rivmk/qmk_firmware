@@ -578,7 +578,6 @@ void sentence_end(qk_tap_dance_state_t *state, void *user_data) {
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_QUOTE] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT,KC_DQUO),
-  [TD_EXT] = ACTION_TAP_DANCE_DOUBLE(EXTEND1, EXTEND2),
   [TD_DOT] = ACTION_TAP_DANCE_FN_ADVANCED(sentence_end, NULL, NULL),
 };
 
