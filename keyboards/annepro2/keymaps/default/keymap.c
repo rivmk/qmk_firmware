@@ -4,8 +4,6 @@
     • Reconfigure the extend map a bit (swap bksp & del; put mouse movers together)
         • Consider making Esc a abort key for the Ext layers
     • Fill out the Kaomoji layer (and the other layer too, if wanted)
-    • Add Fn-key toggles for the shift-ext and alt-ext layers)
-        • Change image script to accept the new fn toggles
 =============================================*/
 
 #include <stdint.h>
@@ -23,8 +21,10 @@ static bool ext = false;
 static bool caps = false;
 
 // Trackers for the help images
-static bool f21_tracker = false;
 static bool f22_tracker = false;
+static bool f21_tracker = false;
+static bool f20_tracker = false;
+static bool f19_tracker = false;
 static uint16_t extTimer = 0;
 
 // Apparently needed for the shift+Backspace = Del code
@@ -192,7 +192,7 @@ uint8_t mod_state;
     KC_BSPC, KC_DEL,  KC_WH_U, KC_WBAK, KC_WFWD, KC_MS_U, KC_ESC,  KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_DEL,  KC_APP,  KC_ESC,
     _______, KC_LALT, KC_WH_D, KC_LSFT, KC_LCTL, KC_MS_D, KC_INS,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_BSPC, _______,
     EXT_SFT, C(KC_X), C(KC_C), KC_BTN3, C(KC_V), C(KC_Z), KC_WH_R, KC_BTN1, KC_BTN2, KC_MS_L, KC_MS_R, EXT_SFT,
-    EXT_CTL, _______, EXT_ALT,                   PAU_PLY,                   EXT_ALT, _______, _______, EXT_CTL
+    KC_LCTL, _______, EXT_ALT,                   PAU_PLY,                   EXT_ALT, _______, _______, KC_RCTL
  ),
 
   /*
@@ -215,7 +215,7 @@ uint8_t mod_state;
     KC_TAB,  KC_HOME, KC_UP,   KC_END,  KC_DEL,  KC_ESC,  S(KC_9), KC_PGUP, KC_KP_4, KC_KP_5, KC_KP_6, KC_PPLS, KC_QUOT, KC_COMM,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_BSPC, KC_NLCK, S(KC_0), KC_PGDN, KC_KP_1, KC_KP_2, KC_KP_3, KC_PENT, _______,
     _______, C(KC_X), C(KC_C), KC_BTN2, C(KC_V), C(KC_Z), KC_PSLS, COLON,   KC_KP_0, KC_KP_0, KC_PDOT, _______,
-    EXT_CTL, _______, EXT_ALT,                   SFT_SPC,                   EXT_ALT, _______, _______, EXT_CTL
+    KC_LCTL, _______, EXT_ALT,                   SFT_SPC,                   EXT_ALT, _______, _______, KC_RCTL
  ),
 
   /*
@@ -453,20 +453,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
 
 
-            // ELayer selector macros (these send additional key signals for AHK purposes)
+            // Layer selector macros (these send additional key signals for AHK purposes)
             case EXTEND:
                 if (record->event.pressed) {
                     extTimer = timer_read();
                     layer_invert(_EXT_LAYER);
                     if (!f22_tracker) {
-                        register_code(KC_F22);              // Holds down F22 (for AHK image script)
+                        register_code(KC_F22);          // Holds down F22 (for AHK image script)
                         f22_tracker = true;
-                    } else {                                // Should only fire if the key was tapped previously
+                    } else {                            // Should only fire if the key was tapped previously
                         unregister_code(KC_F22);
                         f22_tracker = false;
                     }
                 }
-                return true;
+                return true;                            // Second part (when Ext is held and released) is in post_process below
+
+            case EXT_SFT:
+                if (record->event.pressed) {
+                    layer_invert(_EXT_SHIFT_LAYER);
+                    register_code(KC_F20);              // Holds down F20 (for AHK image script)
+                    f20_tracker = true;
+                }
+                break;                                  // Second part (when key is released) is in post_process below
+
+            case EXT_ALT:
+                if (record->event.pressed) {
+                    layer_invert(_EXT_ALT_LAYER);
+                    register_code(KC_F19);              // Holds down F19 (for AHK image script)
+                    f19_tracker = true;
+                }
+                break;                                  // Second part (when key is released) is in post_process below
 
             case EMOJI:
                 if (record->event.pressed) {
@@ -520,6 +536,26 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_EXT_LAYER);
                 unregister_code(KC_F22);
                 f22_tracker = false;
+            }
+        }
+        break;
+
+    case EXT_SFT:
+        if (!record->event.pressed) {
+            f20_tracker = false;
+            if (!f20_tracker) {
+                unregister_code(KC_F20);                             // Releases F21
+                layer_invert(_EXT_SHIFT_LAYER);                   // Turns off the Ext+Shift layer
+            }
+        }
+        break;
+
+    case EXT_ALT:
+        if (!record->event.pressed) {
+            f19_tracker = false;
+            if (!f19_tracker) {
+                unregister_code(KC_F19);                              // Releases F21
+                layer_invert(_EXT_ALT_LAYER);                      // Turns off the Ext+Alt layer
             }
         }
         break;

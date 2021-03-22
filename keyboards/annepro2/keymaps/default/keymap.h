@@ -38,8 +38,8 @@ enum anne_pro_layers {
 #define LED_SPD     KC_AP_LED_SPEED
 #define QWERTY      TG(_QWERTY_LAYER)
 #define TAP_EXT     TD(TD_EXT)
-#define EXT_SFT     MO(_EXT_SHIFT_LAYER)
-#define EXT_ALT     MO(_EXT_ALT_LAYER)
+// #define EXT_SFT     MO(_EXT_SHIFT_LAYER)
+// #define EXT_ALT     MO(_EXT_ALT_LAYER)
 #define EXT_CTL     MO(_EXT_CTRL_LAYER)
 #define COLON       S(KC_SCLN)
 
@@ -153,6 +153,8 @@ enum custom_keycodes {
     SHRUG,                   // 🤷‍♂️
 
     EXTEND,                  // Macro for when Ext layer is activated (sends exta key for AHK)
+    EXT_SFT,                 // ---
+    EXT_ALT,                 // ---
     EMOJI,                   // ---
 
     // _QK_TAP_HOLD,            // For the custom tap-hold code; needs to be last element in keycode list
