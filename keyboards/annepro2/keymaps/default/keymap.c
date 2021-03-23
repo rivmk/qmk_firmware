@@ -146,7 +146,7 @@ uint8_t mod_state;
     _______, _______, KC_UP,   _______, _______, _______, _______, _______, KC_UP,   _______, KC_PSCR, KC_HOME, KC_END,  _______,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP, KC_PGDN, _______,
     _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_MPLY, _______, _______, _______, KC_INS,  KC_DEL,  _______,
-    VOL_MTE, VOL_DWN, VOL_UP,                    PAU_PLY,                   _______, _______, EMOJI,   _______          // If the media bug gets fixed, change to regular media keycodes
+    KC_MUTE, KC_VOLD, KC_VOLU,                   KC_MPLY,                   _______, _______, EMOJI,   _______          // Can use AHK codes VOL_MUT, VOL_UP, VOL_DOWN, and PAU_PLY if the bluetooth bug gets annoying
 ),
 
   /*
@@ -169,7 +169,7 @@ uint8_t mod_state;
     _______, _______, KC_UP,   _______, _______, _______, _______, _______, _______, _______, KC_PSCR, KC_HOME, KC_END,  _______,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, KC_PGUP, KC_PGDN, _______,
     _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_MPLY, _______, _______, _______, KC_INS,  KC_DEL,  _______,
-    VOL_MTE, VOL_DWN, VOL_UP,                    PAU_PLY,                   _______, EMOJI,   _______, _______          // If the media bug gets fixed, change to regular media keycodes
+    KC_MUTE, KC_VOLD, KC_VOLU,                   KC_MPLY,                   _______, EMOJI,   _______, _______          // Can use AHK codes VOL_MUT, VOL_UP, VOL_DOWN, and PAU_PLY if the bluetooth bug gets annoying
  ),
 
   /*
@@ -192,7 +192,7 @@ uint8_t mod_state;
     KC_BSPC, KC_DEL,  KC_WH_U, KC_WBAK, KC_WFWD, KC_MS_U, KC_ESC,  KC_PGUP, KC_HOME, KC_UP,   KC_END,  KC_DEL,  KC_APP,  KC_ESC,
     _______, KC_LALT, KC_WH_D, KC_LSFT, KC_LCTL, KC_MS_D, KC_INS,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_BSPC, _______,
     EXT_SFT, C(KC_X), C(KC_C), KC_BTN3, C(KC_V), C(KC_Z), KC_WH_R, KC_BTN1, KC_BTN2, KC_MS_L, KC_MS_R, EXT_SFT,
-    KC_LCTL, _______, EXT_ALT,                   PAU_PLY,                   EXT_ALT, _______, _______, KC_RCTL
+    KC_LCTL, _______, EXT_ALT,                   SFT_SPC,                   EXT_ALT, _______, _______, KC_RCTL                          // Consider making space pause/play on tap & shift on hold
  ),
 
   /*
@@ -215,7 +215,7 @@ uint8_t mod_state;
     KC_TAB,  KC_HOME, KC_UP,   KC_END,  KC_DEL,  KC_ESC,  S(KC_9), KC_PGUP, KC_KP_4, KC_KP_5, KC_KP_6, KC_PPLS, KC_QUOT, KC_COMM,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_BSPC, KC_NLCK, S(KC_0), KC_PGDN, KC_KP_1, KC_KP_2, KC_KP_3, KC_PENT, _______,
     _______, C(KC_X), C(KC_C), KC_BTN2, C(KC_V), C(KC_Z), KC_PSLS, COLON,   KC_KP_0, KC_KP_0, KC_PDOT, _______,
-    KC_LCTL, _______, EXT_ALT,                   SFT_SPC,                   EXT_ALT, _______, _______, KC_RCTL
+    KC_LCTL, _______, EXT_ALT,                   SFT_SPC,                   EXT_ALT, _______, _______, KC_RCTL                          // Consider making space pause/play on tap & shift on hold
  ),
 
   /*
