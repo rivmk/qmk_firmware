@@ -16,8 +16,13 @@
 
 #pragma once
 
-#ifdef KEYBOARD_yynmt_acperience12_rev1
-#include "rev1.h"
-#endif
+// place overrides here
 
-#include "quantum.h"
+
+#define COMBO_TERM 180
+#define ONESHOT_TIMEOUT 5000 
+
+#define MOUSEKEY_INTERVAL 12
+#define MOUSEKEY_MAX_SPEED 6
+#define MOUSEKEY_TIME_TO_MAX 50
+#define MOUSEKEY_DELAY 20

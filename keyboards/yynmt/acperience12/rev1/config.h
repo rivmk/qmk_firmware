@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include "config_common.h"
+
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x04D8 //Sublicense from Microchip Technology
 #define PRODUCT_ID      0xEA51 //Sublicense from Microchip Technology
@@ -28,9 +30,11 @@
 #define MATRIX_COLS 2
 
 #define DIRECT_PINS { { B5, D0 }, { B4, D1 }, { B3, D2 }, { B2, D3 }, { B1, D4 }, { B0, D5 } }
+//#define UNUSED_PINS { B1, D4, B0, D5 }
+
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
-#define DEBOUNCE 5
+#define DEBOUNCING_DELAY 5
 
 /* define if matrix has ghost (lacks anti-ghosting diodes) */
 //#define MATRIX_HAS_GHOST
@@ -46,5 +50,6 @@
 //#define NO_ACTION_ONESHOT
 
 /* disable these deprecated features by default */
-#define NO_ACTION_MACRO
-#define NO_ACTION_FUNCTION
+//#define NO_ACTION_MACRO
+//#define NO_ACTION_FUNCTION
+
