@@ -21,7 +21,7 @@
 #include "artsey.c"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
+	
 [_A_BASE] = LAYOUT(
 A_BASE_A,A_BASE_R,
 A_BASE_T,A_BASE_S,
