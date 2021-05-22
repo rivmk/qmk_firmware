@@ -14,8 +14,8 @@
          "LGUI_T(KC_Z)"        , "LCTL_T(KC_X)", "LALT_T(KC_C)"   , "KC_V"          , "KC_B",
          "KC_N"        , "KC_M"        , "LALT_T(KC_COMM)", "LCTL_T(KC_DOT)", "KC_SLSH",
 
-         "KC_LANG1"       , "KC_BSPC",
-         "LT(7,KC_SPC)", "KC_LANG2"
+         "KC_LANG2"       , "KC_BSPC",
+         "LT(7,KC_SPC)", "KC_LANG1"
         ],
         ["KC_TRNS"     , "KC_TRNS"     , "KC_TRNS"        , "KC_TRNS"       , "KC_TRNS",
          "KC_TRNS"     , "KC_BTN1"     , "KC_WH_U"        , "KC_BTN2"       , "KC_TRNS",
@@ -89,10 +89,10 @@
          "KC_TRNS"     , "KC_TRNS",
          "KC_TRNS"     , "KC_TRNS"
         ],
-        ["KC_TRNS"     , "KC_TRNS"     , "KC_COLN"        , "KC_ESC"        , "KC_TRNS",
+        ["KC_TRNS"     , "KC_TRNS"     , "KC_COLN"        , "KC_ESC"        , "KC_AT",
          "KC_TRNS"     , "KC_TRNS"     , "KC_TRNS"        , "KC_TRNS"       , "KC_DEL",
 
-         "KC_TRNS"     , "KC_PERC"     , "KC_SLSH"        , "KC_ENT"        , "KC_TRNS",
+         "KC_TRNS"     , "KC_PERC"     , "KC_SLSH"        , "KC_ENT"        , "KC_MINS",
          "DF(1)"       , "KC_LGUI"     , "KC_TRNS"        , "KC_TRNS"       , "KC_TRNS",
 
          "KC_TRNS"     , "KC_TRNS"     , "KC_TRNS"        , "KC_EXLM"       , "KC_TRNS",
